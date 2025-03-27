@@ -1,17 +1,10 @@
 from django.db import models
 
 # Create your models here.
-class cfr_reference(models.Model):
+
+class CfrReference(models.Model):
     title = models.IntegerField(null=True, blank=True)
     chapter = models.CharField(max_length=50, null=True, blank=True)
-
-class ChildAgency(models.Model):
-    name = models.CharField(max_length=100, null=True, blank=True)
-    short_name = models.CharField(max_length=10,null=True, blank=True)
-    display_name = models.CharField(max_length=100, null=True, blank=True)
-    sortable_name = models.CharField(max_length=100, null=True, blank=True)
-    slug = models.CharField(max_length=100, null=True, blank=True)
-    cfr_reference = models.OneToOneField(cfr_reference, on_delete=models.CASCADE)
 
 class Agency(models.Model):
     name = models.CharField(max_length=100)
@@ -19,5 +12,8 @@ class Agency(models.Model):
     display_name = models.CharField(max_length=100)
     sortable_name = models.CharField(max_length=100)
     slug = models.CharField(max_length=100)
-    children = models.JSONField()
-    cfr_references = models.JSONField()
+    parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
+    cfr_references = models.ManyToManyField(CfrReference, related_name="agencies", blank=True)
+
+    def __str__(self):
+        return self.name
