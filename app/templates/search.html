@@ -1,0 +1,26 @@
+{% extends 'base.html' %} 
+{% comment %} {% block title %}Agencies{% endblock %} {% endcomment %}
+
+{% block content %}
+    <div style="display: flex; justify-content: center; padding: 10px; padding-top: 20px">
+    <form method="GET" action="">
+        <input type="text" name="query" placeholder="Search Agency...">
+        <button type="submit">Search</button>
+    </form>
+    </div>
+
+    {% if query %}
+    <h2>Results for "{{ query }}"</h2>
+    <div style="overflow-y:scroll; height: 400px; width: 100%; border: 1px solid #ccc; padding: 10px;">
+        <ul>
+            {% for agency in results %}
+              <li>
+                <a href="{% url 'agency_detail' agency.pk %}">{{ agency.name }}</a>
+              </li>
+            {% empty %}
+              <li>No agencies found.</li>
+            {% endfor %}
+          </ul>
+    </div>
+    {% endif %}
+{% endblock %}

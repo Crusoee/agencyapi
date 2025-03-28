@@ -6,15 +6,15 @@ import requests
 class Command(BaseCommand):
     help = "Load JSON data into SQLite database"
 
-    # def add_arguments(self, parser):
-    #     parser.add_argument('json_file', type=str, help='Path to JSON file')
 
     def handle(self, *args, **kwargs):
+        # date = "2023-10-01"
         data = requests.get("https://www.ecfr.gov/api/admin/v1/agencies").json()
 
         for agency_data in data['agencies']:
             parent_cfrs = []
             for cfr in agency_data.get('cfr_references', []):
+                
                 cfr_obj, _ = CfrReference.objects.get_or_create(
                     title=cfr.get('title'),
                     chapter=cfr.get('chapter')

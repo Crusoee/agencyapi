@@ -1,16 +1,18 @@
-{% extends 'base.html' %} {% block title %}Agencies{% endblock %}
+{% extends 'base.html' %} 
+{% comment %} {% block title%} Home {% endblock%} {% endcomment %}
 
 {% block content %}
-    <h1>Agencies</h1>
-    <div style="overflow-y:scroll; height: 400px; width: 100%; border: 1px solid #ccc; padding: 10px;">
+    <h1 style="text-align: center; padding-top: 10px;">All Agencies</h1>
+    <p>Each agency link listed below loads in it's data on click! Depending on how massive the title and chapters are, load times may vary accordingly...</p>
+    {% comment %} <div style="padding-top: 20px"></div> {% endcomment %}
+    <div style="overflow-y:scroll; height: 600px; width: 100%; border: 1px solid #ccc; padding: 10px;">
         <ul>
             {% for agency in agencies %}
-                <details>
-                    <summary>{{ agency.name }}</summary>
-                    <p> cfr references: {{agency.cfr_references}}</p>
-                    <p>child agencies: {{agency.children}}</p>
-                </details>
+                    <li>
+                        <a href="{% url 'agency_detail' agency.pk %}">{{ agency.name }}</a>
+                    </li>
             {% endfor %}
         </ul>
     </div>
+
 {% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %} 
+{% comment %} {% block title %} Agency Detail {% endblock %} {% endcomment %}
+
+
+{% block content %}
+<h1>{{ agency.name }}</h1>
+
+<h3> Compare Word Count Across Dates </h3>
+
+<form method="GET" action="" style="padding: 5px; padding-bottom: 20px;">
+  <input type="text" name="date" placeholder={{date}}>
+  <button type="submit">Search</button>
+</form>
+
+<h3>Child Agencies</h3>
+<ul>
+  {% for child in agency.children.all %}
+    <li>{{ child.name }}</li>
+  {% empty %}
+    <li>No child agencies.</li>
+  {% endfor %}
+</ul>
+
+<h3>CFR References</h3>
+<ul>
+  {% for key, item in info.chapter_length.items %}
+    <li>{{ key }}, Amount of Words: {{ item }}</li>
+  {% empty %}
+    <li>No CFR references.</li>
+  {% endfor %}
+</ul>
+<h5>Total Amount of Words: {{info.total_length}}. An increase by {{info.percent_change}} % from 2018-01-01</h5>
+<p>That's equivelent to a {{info.book_comparison}} chapter book!</p>
+{% endblock %}
